@@ -3,12 +3,8 @@
 @section('content')
 
     <div class="col-sm-12">
-        @section('content')
-            @include("blocks.categories_side_bar")
-        @show
-        <p>as;djaksdjajsdpj</p>
+        @include("blocks.categories_side_bar")
     </div>
-
 
 
     {{--}} @foreach($posts as $post)
@@ -28,4 +24,4 @@
     </div>
     {{--}}
 
-@show
+@endsection

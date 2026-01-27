@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +17,15 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
+        $title = $this->faker->realTextBetween(10, 30);
+        //$slug = str_replace(" ","-", $title);
         return [
             //
+            'title' => $title,
+            'slug' => $this->faker->slug(),
+            'description' => $this->faker->realText(200),
+            'content' => $this->faker->realTextBetween(250, 500),
+            'category_id' => $this->faker->randomFloat(0, 1, 10),
         ];
     }
 }

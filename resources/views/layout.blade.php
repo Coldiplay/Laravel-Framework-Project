@@ -2,7 +2,7 @@
 <html lang="en">
 
 @section('head')
-    @include("blocks.header")
+    @include("blocks.head")
 @show
 
 <body data-spy="scroll" data-target=".navbar-fixed-top">
@@ -47,16 +47,17 @@
         </div>
     </section>
 </div>
-<div class="clear"></div>
+{{--}} <div class="clear"></div> {{--}}
 
 @section('footer')
     @include("blocks.footer")
-@endsection
+@show
 
 @section('java_script')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
 
     @vite(['resources/assets/front/js/custom.js'])
     <!-- <script src="assets/js/custom.js"></script> -->
