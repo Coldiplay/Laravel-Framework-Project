@@ -5,9 +5,6 @@
     <div class="col-sm-12">
         <div class="inline-text">
             <h4>{{$category->title}}</h4>
-            <div class="margin-left-auto blue-text">
-                <span><!--@{{category.articlesCount}}--></span>
-            </div>
         </div>
 
         @if($category->updated_at > $category->created_at)
@@ -18,8 +15,11 @@
 
 
         {{--}} Поменять условие на проверку коллекции постов {{--}}
-        @if(true)
-            <h4>Посты:</h4>
+        @if($posts->count() > 0)
+            <h4>Посты ({{$posts->count()}}):</h4>
+            @foreach($posts as $post)
+                @include('blocks.single_article')
+            @endforeach
         @endif
 
 

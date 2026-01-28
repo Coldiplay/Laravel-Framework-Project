@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('content');
             //$table->timestamp('published_at');
             $table->timestamps();
-            $table->foreignId('category_id')->constrained();
+            $table->foreignIdfor(\App\Models\Category::class)->constrained('categories', 'id');//->onDelete('cascade');
         });
     }
 

@@ -11,4 +11,8 @@ Route::get('/categories',
     [CategoryController::class, 'index'])
     ->name('categories.index');
 
-Route::get('/categories/{id_category}', [CategoryController::class, 'show_single_category']);
+Route::get('/category/{id_category}', [CategoryController::class, 'show_single_category']);
+
+Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index']);
+
+Route::get('/post/{slug}', [\App\Http\Controllers\PostController::class, 'show_single_post']);
