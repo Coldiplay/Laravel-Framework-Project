@@ -2,7 +2,9 @@
 
 @section('content')
 
-{{--} TODO: Сделать шаблон постов  {{--}}
+    {{--} TODO: Сделать шаблон постов  {{--}}
+    @foreach($posts as $post)
+        @include('blocks.single_short_post')
+    @endforeach
 
-
-@show
+@endsection

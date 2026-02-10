@@ -18,10 +18,18 @@ class PostController extends Controller
     public function show_single_post($slug)
     {
         $post = Post::where('slug', '=', $slug)->first();
+        $test = ":";
         if (!$post) {
             abort(404);
         }
 
         return view('posts.show_single_post', compact('post'));
+    }
+
+    // TODO: Сделать fetch update create kill
+    public function create(Post $post)
+    {
+        //Post::all()->add($post);
+
     }
 }

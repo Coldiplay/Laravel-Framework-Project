@@ -13,6 +13,7 @@ class CategoryController extends Controller
     {
         //$categories = Category::withCount('')->get();
         $categories = Category::withCount('posts')->get();
+        //dd($categories->toArray()[0]['title']);
         return view('categories.index', compact('categories'));
     }
 
@@ -20,6 +21,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($category_id);
 
+        //dd($category->title);
         $posts = $category->posts()->get();
 
         return view('categories.show_single_category', compact([

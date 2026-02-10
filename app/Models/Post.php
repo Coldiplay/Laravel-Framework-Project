@@ -16,7 +16,5 @@ class Post extends Model
     public function categories() : HasOne
     {
         return $this->hasOne(Post::class);
-
-
     }
 }

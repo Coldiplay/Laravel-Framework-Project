@@ -26,6 +26,7 @@ class PostFactory extends Factory
             'description' => $this->faker->realText(200),
             'content' => $this->faker->realTextBetween(250, 500),
             'category_id' => $this->faker->randomFloat(0, 1, 10),
+            'user_id' => (int)$this->faker->randomElement([1, 2]),
         ];
     }
 }

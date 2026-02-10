@@ -4,7 +4,8 @@ use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
+    //return view('welcome');
 });
 
 Route::get('/categories',
@@ -16,3 +17,7 @@ Route::get('/category/{id_category}', [CategoryController::class, 'show_single_c
 Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index']);
 
 Route::get('/post/{slug}', [\App\Http\Controllers\PostController::class, 'show_single_post']);
+
+Auth::routes();
+
+Route::get('admin/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

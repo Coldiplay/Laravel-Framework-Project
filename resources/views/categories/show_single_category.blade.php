@@ -18,12 +18,11 @@
         @if($posts->count() > 0)
             <h4>Посты ({{$posts->count()}}):</h4>
             @foreach($posts as $post)
-                @include('blocks.single_article')
+                @include('blocks.single_short_post')
             @endforeach
         @endif
 
 
     </div>
-
 
 @endsection

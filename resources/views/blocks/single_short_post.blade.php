@@ -8,9 +8,9 @@
     <div class="blog-meta">{{ $post->created_at }}
         <a href="">(3) Comments</a>
     </div>
-    <p>{{ $post->content }}</p>
+    <p>{{ implode(' ', array_slice(explode(' ', $post->content), 0, 20)) }}...</p>
     <div class="blog-btn">
-        <a href="/article/{{ $post->id }}" class="btn-default">Подробнее</a>
+        <a href="/post/{{ $post->slug }}" class="btn-default">Подробнее</a>
         {{--}}
         <div class="img-inline">
             <img src="{{ $post.author_image }}">
