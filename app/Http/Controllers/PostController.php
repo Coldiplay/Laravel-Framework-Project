@@ -7,18 +7,23 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    //
-
-    public function index()
+    public function fetch_all(Request $request)
     {
-        $posts = Post::all();
+        $user = $request->user();
+
+        if ($user->role !== 'admin') {
+            $posts = Post::query()->where('user_id', $user->id);
+        }
+        else{
+            $posts = Post::all();
+        }
+
         return view('posts.index', compact('posts'));
     }
 
-    public function show_single_post($slug)
+    public function fetchBySlug($slug)
     {
         $post = Post::where('slug', '=', $slug)->first();
-        $test = ":";
         if (!$post) {
             abort(404);
         }
@@ -26,10 +31,49 @@ class PostController extends Controller
         return view('posts.show_single_post', compact('post'));
     }
 
-    // TODO: Сделать fetch update create kill
-    public function create(Post $post)
+    public function fetch(int $id)
     {
-        //Post::all()->add($post);
+        $post = Post::find($id);
+        if (!$post) {
+            abort(404);
+        }
 
+        return view('posts.single_post', compact('post'));
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        $post->title = $request->title;
+        $post->slug = $request->slug;
+        $post->description = $request->description;
+        $post->content = $request->post_content;
+        $post->category_id = $request->category_id;
+        //$post->user_id = $request->user()->id;
+        $request->user()->posts()->save($post);
+
+        return redirect()->route('posts.index');
+    }
+
+    public function create(Request $request)
+    {
+        $post = new Post();
+        $post->title = $request->title;
+        $post->slug = $request->slug;
+        $post->description = $request->description;
+        $post->content = $request->post_content;
+        $post->category_id = $request->category_id;
+        $post->user_id = $request->user()->id;
+        $request->user()->posts()->save($post);
+
+        //$post->save();
+        //Post::all()->add($post);
+        return redirect()->route('posts.index');
+    }
+
+    public function kill(int $post_id)
+    {
+        Post::destroy($post_id);
+
+        return redirect()->route('posts.index');
     }
 }

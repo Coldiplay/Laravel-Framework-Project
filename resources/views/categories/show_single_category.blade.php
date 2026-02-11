@@ -14,7 +14,6 @@
         @endif
 
 
-        {{--}} Поменять условие на проверку коллекции постов {{--}}
         @if($posts->count() > 0)
             <h4>Посты ({{$posts->count()}}):</h4>
             @foreach($posts as $post)

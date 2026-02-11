@@ -1,11 +1,15 @@
 <div class="single-post">
     <div class="blog-img">
-        <a href="/article/{{ $post->id }}">
-            <img src="" class="img-responsive"> <!-- src="{@{ article.image_path }}" -->
+        <img src="" class="img-responsive">
+        {{--}}
+        <a href="/posts/{{ $post->slug }}">
+             <!-- src="{@{ article.image_path }}" -->
         </a>
+        {{--}}
     </div>
     <h2 class="blog-title">{{ $post->title }}</h2>
-    <div class="blog-meta">{{ $post->created_at }}
+    <div class="blog-meta">
+        {{ $post->created_at }}
         <a href="">(3) Comments</a>
     </div>
     <p>{{$post->content }}</p>

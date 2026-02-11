@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Auth\Access\Gate;
+use App\Policies\PostPolicy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,6 +14,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
+
     }
 
     /**
@@ -20,7 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
         //Route::pattern('slug', '[a-]+');
+        Gate::define('post-view', [PostPolicy::class, 'view']);
+        Gate::define('post-view-any', [PostPolicy::class, 'viewAny']);
+        Gate::define('post-update', [PostPolicy::class, 'update']);
+        Gate::define('post-delete', [PostPolicy::class, 'delete']);
+        Gate::define('post-create', [PostPolicy::class, 'create']);
     }
 }
