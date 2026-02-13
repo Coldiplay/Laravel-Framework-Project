@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -15,8 +16,10 @@ class PostController extends Controller
             $posts = Post::query()->where('user_id', $user->id);
         }
         else{
-            $posts = Post::all();
+            $posts = Post::query();
         }
+
+        $posts = $posts->paginate(10);
 
         return view('posts.index', compact('posts'));
     }
@@ -44,10 +47,10 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $post->title = $request->title;
-        $post->slug = $request->slug;
-        $post->description = $request->description;
+        //$post->slug = $request->slug;
+        //$post->description = $request->description;
         $post->content = $request->post_content;
-        $post->category_id = $request->category_id;
+        //$post->category_id = $request->category_id;
         //$post->user_id = $request->user()->id;
         $request->user()->posts()->save($post);
 
@@ -58,14 +61,14 @@ class PostController extends Controller
     {
         $post = new Post();
         $post->title = $request->title;
-        $post->slug = $request->slug;
-        $post->description = $request->description;
+        //$post->slug = $request->slug;
+        //$post->description = $request->description;
         $post->content = $request->post_content;
-        $post->category_id = $request->category_id;
+        //$post->category_id = $request->category_id;
         $post->user_id = $request->user()->id;
-        $request->user()->posts()->save($post);
+        $post->save();
+        //$request->user()->posts()->save($post);
 
-        //$post->save();
         //Post::all()->add($post);
         return redirect()->route('posts.index');
     }
@@ -76,4 +79,6 @@ class PostController extends Controller
 
         return redirect()->route('posts.index');
     }
+
+    // TODO: Сделать показ форм добавления и редактирования
 }

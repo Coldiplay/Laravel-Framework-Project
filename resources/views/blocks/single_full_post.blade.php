@@ -13,14 +13,22 @@
         <a href="">(3) Comments</a>
     </div>
     <p>{{$post->content }}</p>
-    {{--}}
-    <div class="blog-btn">
-        <a href="/post/{{ $post->id }}" class="btn-default">Подробнее</a>
-        <div class="img-inline">
-            <img src="{{ $post.author_image }}">
-            <a href="#">{{ $post.author }}</a>
-        </div>
 
-    </div>
-    {{--}}
+        <div class="img-inline">
+            {{--}}  <img src="{{ $post.author_image }}">    {{--}}
+            <a href="#">{{ $post->user->name }}</a>
+        </div>
+    @can('update-post')
+        <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm btn-primary">Edit</a>
+    @endcan
+
+    @can('post-kill')
+        <form action="{{ route('posts.kill', $post->id) }}" method="POST" class="d-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-danger"
+                    onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+        </form>
+    @endcan
+
 </div>

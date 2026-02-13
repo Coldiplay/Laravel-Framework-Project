@@ -5,7 +5,7 @@
         @section('categories')
             @foreach ($categories as $category)
                 <li>
-                    <a href="categories/{{$category->id }}">
+                    <a href="{{ route('categories.single', $category->id) }}">
                         <div class="inline-text">
                             <i class="glyphicon glyphicon-play blue-text"></i>
                             <h4>{{$category->title}}</h4>

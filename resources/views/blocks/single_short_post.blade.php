@@ -14,11 +14,11 @@
     <p>{{ implode(' ', array_slice(explode(' ', $post->content), 0, 20)) }}...</p>
     <div class="blog-btn">
         <a href="/posts/{{ $post->slug }}" class="btn-default">Подробнее</a>
-        {{--}}
+
         <div class="img-inline">
-            <img src="{{ $post.author_image }}">
-            <a href="#">{{ $post.author }}</a>
-        </div>
-        {{--}}
+            {{--}} <img src="{{ $post.author_image }}"> {{--}}
+             <a href="#">{{ $post->user->name }}</a>
+         </div>
+
     </div>
 </div>

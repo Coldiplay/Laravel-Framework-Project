@@ -50,7 +50,7 @@ class PostPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Post $post): Response
+    public function kill(User $user, Post $post): Response
     {
         return $user->id === $post->user_id
             ? Response::allow()

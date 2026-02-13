@@ -13,27 +13,39 @@ Route::get('/', function () {
 Route::prefix('categories')->group(function () {
     Route::get('/',
         [CategoryController::class, 'index'])
-        ->name('categories.index');
+        ->name('categories.all');
 
     Route::get('/{id_category:int}',
-        [CategoryController::class, 'show_single_category']);
+        [CategoryController::class, 'show_single_category'])
+        ->name('categories.single');
 });
 
 Route::prefix('posts')->group(function () {
     Route::get('/',
-        [PostController::class, 'fetch_all']);
+        [PostController::class, 'fetch_all'])
+        ->name('posts.all');
     Route::get('/{slug:string}',
-        [PostController::class, 'fetchBySlug']);
+        [PostController::class, 'fetchBySlug'])
+        ->name('posts.slug_single');
     Route::get('/{id:int}',
-        [PostController::class, 'fetch']);
+        [PostController::class, 'fetch'])
+        ->name('posts.single');
+
+
+
+
 
     Route::put('/{id:int}',
-        [PostController::class, 'update']);
+        [PostController::class, 'update'])
+        ->name('posts.update');
 
     Route::post('/',
-        [PostController::class, 'create']);
+        [PostController::class, 'create'])
+        ->name('posts.create');
+
     Route::delete('/{id:int}',
-        [PostController::class, 'kill']);
+        [PostController::class, 'kill'])
+        ->name('posts.kill');
 });
 
 
