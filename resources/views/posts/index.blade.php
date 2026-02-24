@@ -3,7 +3,7 @@
 @section('content')
 
     @can('post-create')
-        <a href="{{ route('posts.create') }}" class="btn btn-primary float-end">Create New Post</a>
+        <a href="{{ route('posts.create_form') }}" class="btn btn-primary float-end">Создать новый пост</a>
     @endcan
 
     {{-- TODO: Сделать шаблон постов  --}}

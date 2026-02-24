@@ -16,18 +16,18 @@
         </div>
 
         <div class="mb-3">
-            <label for="content" class="form-label">Content</label>
-            <textarea class="form-control @error('content') is-invalid @enderror"
-                      id="content" name="content" rows="5" required>{{ old('content', $post->content) }}</textarea>
-            @error('content')
+            <label for="post_content" class="form-label">Content</label>
+            <textarea class="form-control @error('post_content') is-invalid @enderror"
+                      id="post_content" name="post_content" rows="5" required>{{ old('post_content', $post->content) }}</textarea>
+            @error('post_content')
             <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
             @enderror
         </div>
 
-        <button type="submit" class="btn btn-primary">Update Post</button>
-        <a href="{{ route('posts.all') }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{{ route('posts.all') }}" class="btn btn-secondary">Отмена</a>
 
     </form>
 

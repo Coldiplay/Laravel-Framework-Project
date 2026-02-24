@@ -13,6 +13,10 @@ class Post extends Model
     /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
 
+    //TODO: добавить поля в параметры
+    protected $fillable = [];
+    protected $table = 'posts';
+    protected $guarded = [];
 
     public function categories() : BelongsTo
     {

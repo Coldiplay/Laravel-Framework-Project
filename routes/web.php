@@ -21,21 +21,39 @@ Route::prefix('categories')->group(function () {
 });
 
 Route::prefix('posts')->group(function () {
-    Route::get('/',
+    Route::get(
+        '/',
         [PostController::class, 'fetch_all'])
-        ->name('posts.all');
-    Route::get('/{slug:string}',
+    ->name('posts.all');
+
+    Route::get(
+        '/{slug:string}',
         [PostController::class, 'fetchBySlug'])
-        ->name('posts.slug_single');
-    Route::get('/{id:int}',
-        [PostController::class, 'fetch'])
+    ->name('posts.slug_single');
+
+    Route::prefix('/{post}')->group(function () {
+        Route::get(
+            '/',
+            [PostController::class, 'fetch'])
         ->name('posts.single');
 
+        Route::get(
+            '/update',
+            [PostController::class, 'updateShowForm'])
+            ->name('posts.update_form');
+    });
+
+
+    Route::get(
+        '/create',
+        [PostController::class, 'createShowForm'])
+    ->name('posts.create_form');
 
 
 
 
-    Route::put('/{id:int}',
+
+    Route::put('/{post}',
         [PostController::class, 'update'])
         ->name('posts.update');
 
@@ -47,7 +65,7 @@ Route::prefix('posts')->group(function () {
         [PostController::class, 'kill'])
         ->name('posts.kill');
 });
-
+// Route::resource('posts', PostController::class);
 
 Auth::routes();
 

@@ -46,15 +46,18 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        $post->title = $request->title;
-        //$post->slug = $request->slug;
-        //$post->description = $request->description;
-        $post->content = $request->post_content;
-        //$post->category_id = $request->category_id;
-        //$post->user_id = $request->user()->id;
+
+        dd($request->all());
+        $post->update($request->all());
         $request->user()->posts()->save($post);
 
         return redirect()->route('posts.index');
+    }
+    public function updateShowForm(int $id)
+    {
+        $post = Post::find($id);
+        //dd($post);
+        return view('posts.update_form', compact('post'));
     }
 
     public function create(Request $request)
@@ -71,6 +74,12 @@ class PostController extends Controller
 
         //Post::all()->add($post);
         return redirect()->route('posts.index');
+    }
+    public function createShowForm()
+    {
+        dd(5);
+
+        return view('posts.create_form');
     }
 
     public function kill(int $post_id)

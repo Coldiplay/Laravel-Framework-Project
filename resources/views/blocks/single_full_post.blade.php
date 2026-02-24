@@ -19,7 +19,7 @@
             <a href="#">{{ $post->user->name }}</a>
         </div>
     @can('update-post')
-        <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm btn-primary">Edit</a>
+        <a href="{{ route('posts.update_form', $post) }}" class="btn btn-sm btn-primary">Edit</a>
     @endcan
 
     @can('post-kill')
