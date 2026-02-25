@@ -14,9 +14,20 @@ class Post extends Model
     use HasFactory;
 
     //TODO: добавить поля в параметры
-    protected $fillable = [];
+    protected $fillable = [
+        'title',
+        'description',
+        'content',
+        'category_id',
+    ];
     protected $table = 'posts';
-    protected $guarded = [];
+    protected $guarded = [
+        'id',
+        'slug',
+        'created_at',
+        'updated_at',
+        'user_id'
+    ];
 
     public function categories() : BelongsTo
     {

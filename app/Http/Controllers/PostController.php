@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function fetch_all(Request $request)
     {
         $user = $request->user();
@@ -24,16 +32,6 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
-    public function fetchBySlug($slug)
-    {
-        $post = Post::where('slug', '=', $slug)->first();
-        if (!$post) {
-            abort(404);
-        }
-
-        return view('posts.show_single_post', compact('post'));
-    }
-
     public function fetch(int $id)
     {
         $post = Post::find($id);
@@ -41,45 +39,53 @@ class PostController extends Controller
             abort(404);
         }
 
-        return view('posts.single_post', compact('post'));
+        return view('posts.show_single_post', compact('post'));
     }
 
     public function update(Request $request, Post $post)
     {
+        $attributes = $request->all();
 
-        dd($request->all());
-        $post->update($request->all());
+        if (!$this->checkCategoryExists($attributes['category_id'])) {
+            return redirect()->back()->with('error', 'Category not found');
+        }
+
+        $post->update($attributes);
         $request->user()->posts()->save($post);
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.all');
     }
-    public function updateShowForm(int $id)
+    public function updateShowForm(Post $post)
     {
-        $post = Post::find($id);
-        //dd($post);
-        return view('posts.update_form', compact('post'));
+        //$post = Post::find($id);
+
+        $categories = Category::all();
+        return view('posts.update_form', compact(['post', 'categories']));
     }
 
     public function create(Request $request)
     {
         $post = new Post();
-        $post->title = $request->title;
-        //$post->slug = $request->slug;
-        //$post->description = $request->description;
-        $post->content = $request->post_content;
-        //$post->category_id = $request->category_id;
-        $post->user_id = $request->user()->id;
-        $post->save();
-        //$request->user()->posts()->save($post);
 
-        //Post::all()->add($post);
-        return redirect()->route('posts.index');
+        $attributes = $request->all();
+
+        if (!$this->checkCategoryExists($attributes['category_id'])) {
+            return redirect()->back()->with('error', 'Category not found');
+        }
+
+        $post->fill($attributes);
+        $post->slug = $attributes['title'];
+        $post->user_id = $request->user()->id;
+
+        $post->save();
+
+        return redirect()->route('posts.all');
     }
     public function createShowForm()
     {
-        dd(5);
-
-        return view('posts.create_form');
+        //dd(Auth::user());
+        $categories = Category::all();
+        return view('posts.create_form', compact('categories'));
     }
 
     public function kill(int $post_id)
@@ -89,5 +95,10 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    // TODO: Сделать показ форм добавления и редактирования
+
+
+    private function checkCategoryExists(int $category_id)
+    {
+        return Category::where('id', $category_id)->exists();
+    }
 }

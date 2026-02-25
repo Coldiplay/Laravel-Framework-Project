@@ -16,10 +16,20 @@
         </div>
 
         <div class="mb-3">
-            <label for="post_content" class="form-label">Content</label>
-            <textarea class="form-control @error('post_content') is-invalid @enderror"
-                      id="post_content" name="post_content" rows="5" required>{{ old('post_content', $post->content) }}</textarea>
-            @error('post_content')
+            <label for="category_id">Категория:</label>
+            <select name="category_id" id="category_id" class="form-control" required>
+                @foreach($categories as $category)
+
+                        <option value="{{ $category->id }}" @if($category->id == $post->category_id) selected @endif>{{ $category->title }} </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea class="form-control @error('content') is-invalid @enderror"
+                      id="content" name="content" rows="5" required>{{ old('content', $post->content) }}</textarea>
+            @error('content')
             <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

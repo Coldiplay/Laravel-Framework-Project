@@ -26,11 +26,6 @@ Route::prefix('posts')->group(function () {
         [PostController::class, 'fetch_all'])
     ->name('posts.all');
 
-    Route::get(
-        '/{slug:string}',
-        [PostController::class, 'fetchBySlug'])
-    ->name('posts.slug_single');
-
     Route::prefix('/{post}')->group(function () {
         Route::get(
             '/',
@@ -45,12 +40,9 @@ Route::prefix('posts')->group(function () {
 
 
     Route::get(
-        '/create',
+        '/create/form',
         [PostController::class, 'createShowForm'])
     ->name('posts.create_form');
-
-
-
 
 
     Route::put('/{post}',
@@ -65,7 +57,6 @@ Route::prefix('posts')->group(function () {
         [PostController::class, 'kill'])
         ->name('posts.kill');
 });
-// Route::resource('posts', PostController::class);
 
 Auth::routes();
 
