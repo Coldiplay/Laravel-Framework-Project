@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,8 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
+        $categoryIds = Category::all()->pluck('id')->toArray();
+        $userIds = User::all()->pluck('id')->toArray();
         $title = $this->faker->realTextBetween(10, 30);
         //$slug = str_replace(" ","-", $title);
         return [
@@ -25,8 +28,8 @@ class PostFactory extends Factory
             'slug' => $this->faker->slug(),
             'description' => $this->faker->realText(200),
             'content' => $this->faker->realTextBetween(250, 500),
-            'category_id' => $this->faker->randomFloat(0, 1, 10),
-            'user_id' => (int)$this->faker->randomElement([1, 2]),
+            'category_id' => $this->faker->randomElement($categoryIds),
+            'user_id' => (int)$this->faker->randomElement($userIds),
         ];
     }
 }

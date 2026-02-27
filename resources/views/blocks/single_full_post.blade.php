@@ -12,13 +12,14 @@
         {{ $post->created_at }}
         <a href="">(3) Comments</a>
     </div>
+    <p>Категория: {{ $post->category->title }}</p>
     <p>{{$post->content }}</p>
 
         <div class="img-inline">
             {{--}}  <img src="{{ $post.author_image }}">    {{--}}
             <a href="#">{{ $post->user->name }}</a>
         </div>
-    @can('update-post')
+    @can('post-update')
         <a href="{{ route('posts.update_form', $post) }}" class="btn btn-sm btn-primary">Edit</a>
     @endcan
 

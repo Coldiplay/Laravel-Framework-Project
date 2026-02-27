@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
-use App\Models\User;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -20,24 +22,25 @@ class PostController extends Controller
     {
         $user = $request->user();
 
+        $posts = Post::query()->with('category');
+
         if ($user->role !== 'admin') {
-            $posts = Post::query()->where('user_id', $user->id);
-        }
-        else{
-            $posts = Post::query();
+            $posts = $posts->where('user_id', $user->id);
         }
 
-        $posts = $posts->paginate(10);
+        $posts = $posts->orderByDesc('created_at')->paginate(10);
 
         return view('posts.index', compact('posts'));
     }
 
-    public function fetch(int $id)
+    public function fetch(int $id): Factory|View
     {
         $post = Post::find($id);
         if (!$post) {
             abort(404);
         }
+        dd([$post, Auth::user(), $post->user_id == $post->user_id]);
+        //Gate::allows('post-kill', [Auth::user(), $post]);
 
         return view('posts.show_single_post', compact('post'));
     }
@@ -92,7 +95,7 @@ class PostController extends Controller
     {
         Post::destroy($post_id);
 
-        return redirect()->route('posts.index');
+        return redirect()->route('posts.all');
     }
 
 
