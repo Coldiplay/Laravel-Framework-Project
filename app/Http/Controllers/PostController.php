@@ -39,8 +39,17 @@ class PostController extends Controller
         if (!$post) {
             abort(404);
         }
-        //dd([$post, Auth::user(), $post->user_id == $post->user_id]);
-        //Gate::allows('post-kill', [Auth::user(), $post]);
+        $user = Auth::user();
+
+        dd([
+            $post,
+            $user,
+            $user->id == $post->user_id,
+            $user->cannot('kill', $post),
+            //Gate::authorize('kill', $post),
+            Gate::allows('kill', [$user, $post]),
+            Gate::inspect('kill', [$user, $post])
+        ]);
 
         return view('posts.show_single_post', compact('post'));
     }

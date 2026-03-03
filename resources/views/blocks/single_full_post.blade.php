@@ -19,11 +19,11 @@
             {{--}}  <img src="{{ $post.author_image }}">    {{--}}
             <a href="#">{{ $post->user->name }}</a>
         </div>
-    @can('post-update')
+    @can('post-update', $post)
         <a href="{{ route('posts.update_form', $post) }}" class="btn btn-sm btn-primary">Edit</a>
     @endcan
 
-    @can('post-kill')
+    @can('post-kill', $post)
         <form action="{{ route('posts.kill', $post->id) }}" method="POST" class="d-inline">
             @csrf
             @method('DELETE')
