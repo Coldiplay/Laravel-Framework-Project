@@ -59,7 +59,10 @@
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-hover-dropdown/2.2.1/bootstrap-hover-dropdown.min.js"></script>
 
-    @vite(['resources/assets/front/js/custom.js'])
+    @vite([
+    'resources/assets/front/js/custom.js',
+    'resources/js/app.js'
+    ])
     <!-- <script src="assets/js/custom.js"></script> -->
 @show
 </body>

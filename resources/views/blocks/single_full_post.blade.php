@@ -20,15 +20,15 @@
             <a href="#">{{ $post->user->name }}</a>
         </div>
     @can('post-update', $post)
-        <a href="{{ route('posts.update_form', $post) }}" class="btn btn-sm btn-primary">Edit</a>
+        <a href="{{ route('posts.update_form', $post) }}" class="btn btn-sm btn-primary">Редактировать</a>
     @endcan
 
-    @can('delete', $post)
-        <form action="{{ route('posts.delete', $post->id) }}" method="POST" class="d-inline">
+    @can('post-kill', $post)
+        <form action="{{ route('posts.kill', $post->id) }}" method="POST" class="d-inline">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-sm btn-danger"
-                    onclick="return confirm('Are you sure you want to delete this post?')">Delete</button>
+                    onclick="return confirm('Are you sure you want to delete this post?')">Удалить</button>
         </form>
     @endcan
 

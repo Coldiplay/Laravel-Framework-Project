@@ -7,16 +7,18 @@ use App\Models\Post;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
+    //Fetch
+    //Update
+    //Create
+    //Kill
+
     public function __construct()
     {
         $this->middleware('auth');
     }
-
 
     public function fetch_all(Request $request)
     {
@@ -33,30 +35,16 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 
-    public function fetch(int $id): Factory|View
+    public function fetch(Post $post): Factory|View
     {
-        $post = Post::find($id);
-        if (!$post) {
-            abort(404);
-        }
-
         $this->authorize('view', $post);
-
-        // dd([
-        //     $post,
-        //     $user,
-        //     $user->id == $post->user_id,
-        //     $user->cannot('kill', $post),
-        //     //Gate::authorize('kill', $post),
-        //     Gate::allows('kill', [$user, $post]),
-        //     Gate::inspect('kill', [$user, $post])
-        // ]);
 
         return view('posts.show_single_post', compact('post'));
     }
 
     public function update(Request $request, Post $post)
     {
+        $this->authorize('post-update', $post);
         $attributes = $request->all();
 
         if (!$this->checkCategoryExists($attributes['category_id'])) {
@@ -70,7 +58,7 @@ class PostController extends Controller
     }
     public function updateShowForm(Post $post)
     {
-        //$post = Post::find($id);
+        $this->authorize('post-update', $post);
 
         $categories = Category::all();
         return view('posts.update_form', compact(['post', 'categories']));
@@ -78,6 +66,8 @@ class PostController extends Controller
 
     public function create(Request $request)
     {
+        $this->authorize('post-create');
+
         $post = new Post();
 
         $attributes = $request->all();
@@ -96,13 +86,14 @@ class PostController extends Controller
     }
     public function createShowForm()
     {
-        //dd(Auth::user());
+        $this->authorize('post-create');
         $categories = Category::all();
         return view('posts.create_form', compact('categories'));
     }
 
-    public function delete(int $post_id)
+    public function kill(int $post_id)
     {
+        $this->authorize('post-kill', $post_id);
         Post::destroy($post_id);
 
         return redirect()->route('posts.all');
