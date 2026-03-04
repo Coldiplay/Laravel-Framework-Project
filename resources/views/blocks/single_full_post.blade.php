@@ -23,8 +23,8 @@
         <a href="{{ route('posts.update_form', $post) }}" class="btn btn-sm btn-primary">Edit</a>
     @endcan
 
-    @can('post-kill', $post)
-        <form action="{{ route('posts.kill', $post->id) }}" method="POST" class="d-inline">
+    @can('delete', $post)
+        <form action="{{ route('posts.delete', $post->id) }}" method="POST" class="d-inline">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-sm btn-danger"

@@ -54,8 +54,8 @@ Route::prefix('posts')->group(function () {
         ->name('posts.create');
 
     Route::delete('/{id:int}',
-        [PostController::class, 'kill'])
-        ->name('posts.kill');
+        [PostController::class, 'delete'])
+        ->name('posts.delete');
 });
 
 Auth::routes();

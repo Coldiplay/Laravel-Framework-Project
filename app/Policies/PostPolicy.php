@@ -26,7 +26,7 @@ class PostPolicy
     {
         return $user->id === $post->user_id
             ? Response::allow()
-            : Response::denyAsNotFound();
+            : Response::deny('You do not own this post.');
     }
 
     /**
@@ -50,9 +50,9 @@ class PostPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function kill(User $user, Post $post): Response
+    public function delete(User $user, Post $post): Response
     {
-        return $user->id != $post->user_id
+        return $user->id === $post->user_id
             ? Response::allow()
             : Response::deny('You do not own this post.');
     }

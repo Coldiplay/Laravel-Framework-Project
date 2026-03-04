@@ -39,17 +39,18 @@ class PostController extends Controller
         if (!$post) {
             abort(404);
         }
-        $user = Auth::user();
 
-        dd([
-            $post,
-            $user,
-            $user->id == $post->user_id,
-            $user->cannot('kill', $post),
-            //Gate::authorize('kill', $post),
-            Gate::allows('kill', [$user, $post]),
-            Gate::inspect('kill', [$user, $post])
-        ]);
+        $this->authorize('view', $post);
+
+        // dd([
+        //     $post,
+        //     $user,
+        //     $user->id == $post->user_id,
+        //     $user->cannot('kill', $post),
+        //     //Gate::authorize('kill', $post),
+        //     Gate::allows('kill', [$user, $post]),
+        //     Gate::inspect('kill', [$user, $post])
+        // ]);
 
         return view('posts.show_single_post', compact('post'));
     }
@@ -100,7 +101,7 @@ class PostController extends Controller
         return view('posts.create_form', compact('categories'));
     }
 
-    public function kill(int $post_id)
+    public function delete(int $post_id)
     {
         Post::destroy($post_id);
 
