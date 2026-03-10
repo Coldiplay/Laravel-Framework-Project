@@ -7,6 +7,8 @@ use App\Models\Post;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -39,7 +41,11 @@ class PostController extends Controller
     {
         $this->authorize('view', $post);
 
-        return view('posts.show_single_post', compact('post'));
+        $user = null;
+        if (Gate::allows('isAdmin', Auth::user())) {
+            $user = $post->user;
+        }
+        return view('posts.show_single_post', compact('post', 'user'));
     }
 
     public function update(Request $request, Post $post)
