@@ -17,8 +17,8 @@
 
         <div class="img-inline">
             {{--}} <img src="{{ $post.author_image }}"> {{--}}
-             <a href="#">{{ $post->user->name }}</a>
-         </div>
+            <a href="#">{{ $post->user->name }}</a>
+        </div>
 
     </div>
 </div>

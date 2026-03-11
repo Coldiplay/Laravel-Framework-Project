@@ -30,7 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('post-create', [PostPolicy::class, 'create']);
 
         Gate::before(function (User $user) {
-            return Gate::allows('isAdmin', $user) ? true : null;
+            return $user->role === 'admin' ? true : null;
         });
     }
 }
