@@ -6,7 +6,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="{{route('home')}}">
                     Insurance<span>Press</span>
                 </a>
                 <p>Call Us Now <b>+215 (362) 4579</b></p>
