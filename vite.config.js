@@ -5,9 +5,12 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
-                'resources/sass/app.scss',
+                'resources/assets/front/js/custom.js',
                 'resources/js/app.js',
-                //'resources/assets/front/ie7/ie7.css',
+
+                'resources/sass/app.scss',
+
+                'resources/assets/front/css/ie7/ie7.css',
                 'resources/assets/front/css/icons.css',
                 'resources/assets/front/css/style.css',
             ],

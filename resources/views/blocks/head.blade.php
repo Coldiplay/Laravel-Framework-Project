@@ -14,7 +14,7 @@
 
         @vite([
                 'resources/assets/front/css/icons.css',
-                'resources/assets/front/ie7/ie7.css',
+                'resources/assets/front/css/ie7/ie7.css',
                 'resources/assets/front/css/style.css'
                 ])
         {{--}}
