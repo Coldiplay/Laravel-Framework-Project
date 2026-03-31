@@ -22,7 +22,6 @@ Route::get('/docs', function () {
 // Public routes (без авторизации)
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');
 Route::post('/login', [AuthController::class, 'login'])->name('api.login');
-Route::get('/test', [PostController::class, 'fetchAll'])->name('api.posts.fetchAll');
 
 // Protected routes (требуют авторизации)
 Route::middleware('auth:sanctum')->group(function () {

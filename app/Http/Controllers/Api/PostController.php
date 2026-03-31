@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\UpdatePostRequest;
+use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -14,6 +18,7 @@ class PostController extends Controller
      */
     public function fetchAll(): PostCollection
     {
+        //$this->authorize('post-viewAny', Post::class);
         $posts = Post::with('user')->latest()->paginate(15);
         return new PostCollection($posts);
     }
@@ -23,6 +28,7 @@ class PostController extends Controller
      */
     public function fetch(Post $post): JsonResponse
     {
+        $this->authorize('post-view', $post);
         $post->load('user');
         return response()->json([
             'post' => new PostResource($post),
@@ -34,7 +40,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post): JsonResponse
     {
-        $this->authorize('update', $post);
+        $this->authorize('post-update', $post);
 
         $post->update($request->validated());
 
@@ -47,12 +53,23 @@ class PostController extends Controller
     /**
      * Store a newly created post.
      */
-    public function create(StorePostRequest $request): JsonResponse
+    public function create(CreatePostRequest $request): JsonResponse
     {
+        $data = $request->validated();
+
+        $slug = Str::slug($data['title']);
+        if (Post::where('slug', $slug)->exists()) {
+            return response()->json([
+                'message' => 'Post with the same name already exists',
+            ], 200);
+        }
+        //return response()->json(Str::slug($data['title']));
         $post = Post::create([
-            'title' => $request->title,
-            'content' => $request->content,
+            'title' => $data['title'],
+            'content' => $data['content'],
+            'slug' => Str::slug($data['title']),
             'user_id' => $request->user()->id,
+            'category_id' => $data['category_id'],
         ]);
 
         $post->load('user');

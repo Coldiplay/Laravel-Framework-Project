@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePostRequest extends FormRequest
+class UpdatePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,10 @@ class CreatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
+            //
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
-            'category_id' => ['required', 'integer', 'min:1', 'exists:categories,id'],
+            'category_id' => ['sometimes', 'integer', 'min:1', 'exists:categories,id'],
         ];
     }
 }

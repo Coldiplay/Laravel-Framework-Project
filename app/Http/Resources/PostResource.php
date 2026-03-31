@@ -20,12 +20,12 @@ class PostResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->description,
             'content' => $this->content,
-            'user_id' => $this->user_id,
+            //'user_id' => $this->user_id,
             'user' => new UserResource($this->whenLoaded('user')),
-            'category_id' => $this->category_id,
+            //'category_id' => $this->category_id,
             'category' => new CategoryResource($this->whenLoaded('category')),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => date('d-m-Y', strtotime($this->created_at)),
+            'updated_at' => date('d-m-Y', strtotime($this->updated_at)),
         ];
     }
 }
