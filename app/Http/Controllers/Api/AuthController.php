@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Library\ApiHelpers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    use ApiHelpers;
     /**
      * Register a new user.
      */
@@ -41,18 +43,21 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message' => 'Invalid credentials',
-            ], 401);
+            return $this->onError(401, 'Invalid credentials');
         }
 
+        ///TODO: Сделать права токенам
         $token = $user->createToken('auth-token')->plainTextToken;
 
-        return response()->json([
-            'message' => 'Login successful',
+        return $this->onSuccess([
             'user' => new UserResource($user),
             'token' => $token,
-        ]);
+        ], 'User logged in successfully');
+//        return response()->json([
+//            'message' => 'Login successful',
+//            'user' => new UserResource($user),
+//            'token' => $token,
+//        ]);
     }
 
     /**
@@ -62,9 +67,10 @@ class AuthController extends Controller
     {
         $request->user()->currentAccessToken()->delete();
 
-        return response()->json([
-            'message' => 'Logged out successfully',
-        ]);
+        return $this->onSuccess(null, 'Logged out successfully');
+//        return response()->json([
+//            'message' => 'Logged out successfully',
+//        ]);
     }
 
     /**
@@ -72,8 +78,9 @@ class AuthController extends Controller
      */
     public function user(Request $request): JsonResponse
     {
-        return response()->json([
-            'user' => new UserResource($request->user()),
-        ]);
+        return $this->onSuccess(new UserResource($request->user()), 'User retrieved successfully');
+//        return response()->json([
+//            'user' => new UserResource($request->user()),
+//        ]);
     }
 }

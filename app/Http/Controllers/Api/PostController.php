@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Library\ApiHelpers;
 use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostCollection;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+    use ApiHelpers;
     /**
      * Display a listing of posts.
      */
@@ -28,11 +31,17 @@ class PostController extends Controller
      */
     public function fetch(Post $post): JsonResponse
     {
-        $this->authorize('post-view', $post);
-        $post->load('user');
-        return response()->json([
-            'post' => new PostResource($post),
-        ]);
+        if (Auth::user()->tokenCan('post:read')) {
+            $post->load(['user', 'category']);
+            return $this->onSuccess(new PostResource($post), 'Post fetched.');
+        }
+
+        return $this->onError(401, 'Unauthorized.');
+
+
+//        return response()->json([
+//            'post' => new PostResource($post),
+//        ]);
     }
 
     /**
