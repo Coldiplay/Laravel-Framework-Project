@@ -19,11 +19,11 @@ class PostController extends Controller
     /**
      * Display a listing of posts.
      */
-    public function fetchAll(): PostCollection
+    public function fetchAll(): JsonResponse
     {
         //$this->authorize('post-viewAny', Post::class);
         $posts = Post::with('user')->latest()->paginate(15);
-        return new PostCollection($posts);
+        return $this->onSuccess(new PostCollection($posts), 'Posts fetched successfully.');
     }
 
     /**
